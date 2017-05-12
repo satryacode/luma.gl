@@ -1,5 +1,5 @@
 import {createGLContext, isWebGL2Context} from 'luma.gl';
-import {getGLParameter, withGLState, TEST_EXPORTS} from '../../src/webgl/context-state';
+import {getParameter, withState, TEST_EXPORTS} from '../../src/webgl/context-state';
 import test from 'tape-catch';
 
 const {GL_STATE} = TEST_EXPORTS;
@@ -22,7 +22,7 @@ test('WebGLState#settings', t => {
   const {gl} = fixture;
   for (const setting in GL_STATE) {
     if (!GL_STATE[setting].webgl2) {
-      const value = getGLParameter(gl, setting);
+      const value = getParameter(gl, setting);
       t.ok(value !== undefined,
         `${setting}: got a value ${stringifyTypedArray(value)}`);
     }
@@ -35,7 +35,7 @@ test('WebGLState#settings(WebGL2)', t => {
   if (isWebGL2Context(gl)) {
     for (const setting in GL_STATE) {
       if (GL_STATE[setting].webgl2) {
-        const value = getGLParameter(gl, setting);
+        const value = getParameter(gl, setting);
         t.ok(value !== undefined,
           `${setting}: got a value ${stringifyTypedArray(value)}`);
       }
@@ -44,22 +44,22 @@ test('WebGLState#settings(WebGL2)', t => {
   t.end();
 });
 
-test('WebGLState#withGLState', t => {
+test('WebGLState#withState', t => {
   const {gl} = fixture;
 
-  let value = getGLParameter(gl, 'clearColor');
+  let value = getParameter(gl, 'clearColor');
   t.deepEqual(value, [0, 0, 0, 0],
     `got expected value ${stringifyTypedArray(value)}`);
 
-  withGLState(gl, {
+  withState(gl, {
     clearColor: [0, 1, 0, 1]
   }, () => {
-    value = getGLParameter(gl, 'clearColor');
+    value = getParameter(gl, 'clearColor');
     t.deepEqual(value, [0, 1, 0, 1],
       `got expected value ${stringifyTypedArray(value)}`);
   });
 
-  value = getGLParameter(gl, 'clearColor');
+  value = getParameter(gl, 'clearColor');
   t.deepEqual(value, [0, 0, 0, 0],
     `got expected value ${stringifyTypedArray(value)}`);
 
