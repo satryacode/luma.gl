@@ -15,9 +15,9 @@ export {
   glContextWithState,
   glGetDebugInfo} from './webgl/context';
 export {
-  getGLParameter,
-  setGLParameter,
-  withGLState} from './webgl/context-state';
+  getParameter,
+  setParameter,
+  withState} from './webgl/context-state';
 export {
   getGLContextInfo,
   getContextLimits} from './webgl/context-limits';
